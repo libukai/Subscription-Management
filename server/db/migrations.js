@@ -16,6 +16,11 @@ class DatabaseMigrations {
         version: 2,
         name: 'add_notification_system',
         up: () => this.migration_002_add_notification_system()
+      },
+      {
+        version: 3,
+        name: 'add_hkd_currency_support',
+        up: () => this.migration_003_add_hkd_currency_support()
       }
     ];
   }
@@ -265,6 +270,29 @@ class DatabaseMigrations {
     `);
 
     console.log('✅ Notification system created successfully');
+  }
+
+  // Migration 003: Add HKD currency support
+  migration_003_add_hkd_currency_support() {
+    console.log('📝 Adding HKD currency support...');
+
+    // Check if HKD currency already exists in exchange_rates
+    const hkdExists = this.db.prepare(`
+      SELECT COUNT(*) as count FROM exchange_rates WHERE to_currency = 'HKD'
+    `).get();
+
+    if (hkdExists.count === 0) {
+      // Add HKD exchange rate for default CNY base currency
+      this.db.exec(`
+        INSERT OR IGNORE INTO exchange_rates (from_currency, to_currency, rate) VALUES
+        ('CNY', 'HKD', 1.1923);
+      `);
+      console.log('✅ Added HKD exchange rate for CNY base currency');
+    } else {
+      console.log(' HKD exchange rate already exists, skipping...');
+    }
+
+    console.log('✅ HKD currency support added successfully');
   }
 
   // Helper method to parse SQL statements properly
