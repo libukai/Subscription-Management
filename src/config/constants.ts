@@ -12,6 +12,7 @@ export const CURRENCY_NAMES: Record<CurrencyCode, string> = {
   AUD: 'Australian Dollar',
   INR: 'Indian Rupee',
   TRY: 'Turkish Lira',
+  HKD: 'Hong Kong Dollar',
 };
 
 export const CURRENCY_SYMBOLS: Record<CurrencyCode, string> = {
@@ -25,6 +26,7 @@ export const CURRENCY_SYMBOLS: Record<CurrencyCode, string> = {
   AUD: 'A$',
   INR: '₹',
   TRY: '₺',
+  HKD: 'HK$',
 };
 
 // Chart colors
